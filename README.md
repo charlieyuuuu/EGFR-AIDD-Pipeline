@@ -46,6 +46,7 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 | **CHEMBL5571836** | **-11.57** | **0.90 (High Risk)** | **-4.45 (Excellent)** | **0.88** |
 | **CHEMBL5920247** | **-10.55** | **0.92 (High Risk)** | **-4.98 (Excellent)** | **0.18** |
 | **CHEMBL6001037** | **-10.65** | **0.82 (High Risk)** | **-5.59 (Excellent)** | **0.47** |
+
 We utilized ADMET-AI to evaluate hERG toxicity, Caco-2 permeability, and CYP450 metabolism for the Top 50 candidates. The results demonstrated that several top-ranked molecules exhibit favorable intestinal absorption without significant hERG cardiotoxicity, indicating high potential for further development.
 Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
 
