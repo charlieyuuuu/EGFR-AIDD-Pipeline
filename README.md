@@ -8,7 +8,7 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ## 🛠️ 技术栈 / Tech Stack
 *   **机器学习与化学信息学 (AIDD) / AI & Cheminformatics:** Scikit-learn (随机森林/Random Forest), RDKit, Pandas (Morgan 分子指纹/Fingerprints), ADMET-AI
 *   **结构生物学与虚拟筛选 (CADD) / Structure-Based Design:** AutoDock Vina (v1.2.5), Meeko, OpenBabel
-*   **分子动力学与热力学 (MD) / Molecular Dynamics:** GROMACS 2025 (GPU 加速/accelerated), acpype (GAFF2 力场/force field), gmx_MMPBSA
+*   **分子动力学与热力学 (MD) / Molecular Dynamics:** GROMACS 2018 (GPU 加速/accelerated), acpype (GAFF2 力场/force field), gmx_MMPBSA
 *   **自动化与可视化 / Automation & Visualization:** Linux Shell, Python `subprocess`, Matplotlib, PyMOL
 
 ## 📂 研发流水线概述 / Pipeline Overview
@@ -37,6 +37,13 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ![Ligand RMSD](results/Fig1_Ligand_RMSD.png)
 *图 1：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。*
 *Figure 1: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes.*
+
+### ADMET 早期成药性评估 / Early-stage ADMET Evaluation
+我们利用 ADMET-AI 工具包，对虚拟筛选出的 Top 50 候选分子进行了 hERG 毒性、Caco-2 渗透性及 CYP450 代谢评估。结果显示，结合能排名靠前的多个候选分子具备良好的肠道吸收（Caco-2）且未表现出显著的 hERG 心脏毒性，具有极高的进一步开发潜力。
+详细预测数据见：[`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
+
+We utilized ADMET-AI to evaluate hERG toxicity, Caco-2 permeability, and CYP450 metabolism for the Top 50 candidates. The results demonstrated that several top-ranked molecules exhibit favorable intestinal absorption without significant hERG cardiotoxicity, indicating high potential for further development.
+Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
 
 ## 🚀 快速运行指南 / Quick Start
 1.  安装依赖环境 / Install dependencies: `pip install -r requirements.txt`
