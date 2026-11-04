@@ -3,13 +3,13 @@
 Description: Filter ChEMBL compounds using Lipinski's rules and prepare 3D PDBQT ligands.
 """
 # 从ChEMBL下载小分子数据库
-# 小分子蛋白用EGFR
+# 小分子蛋白是EGFR
 # 写一个下载脚本，nano download_chembl.py，内容可以根据你的需求调整。下面这个例子是按靶点下载所有有活性数据的化合物，非常适合做虚拟筛选的练习集：
 from chembl_webresource_client.new_client import new_client
 import pandas as pd
 from rdkit import Chem
 
-# 指定一个你感兴趣的靶点 UniProt ID（这里用 EGFR 做示例）
+#  UniProt ID
 target_uniprot = "P00533"
 
 # 1. 找到靶点对应的 ChEMBL 内部 ID
