@@ -43,9 +43,9 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 详细预测数据见：[`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
 | ChEMBL ID | Docking Affinity (kcal/mol) | hERG (Toxicity) | Caco2 (Absorption) | CYP3A4 (Metabolism) |
 | :--- | :--- | :--- | :--- | :--- |
-| **CHEMBL5571836** | **-11.57** | **0.90 (High Risk)** | **-4.45 (Excellent)** | **0.88** |
-| **CHEMBL5920247** | **-10.55** | **0.92 (High Risk)** | **-4.98 (Excellent)** | **0.18** |
-| **CHEMBL6001037** | **-10.65** | **0.82 (High Risk)** | **-5.59 (Excellent)** | **0.47** |
+| **CHEMBL5571836** | **-11.57** | **0.90 (High Risk)** | **-4.44 (Excellent)** | **0.88** |
+| **CHEMBL337026** | **-11** | **0.84 (High Risk)** | **-4.91 (Excellent)** | **0.47** |
+| **CHEMBL338155** | **-10.95** | **0.86 (High Risk)** | **-5.20 (Excellent)** | **0.25** |
 
 We utilized ADMET-AI to evaluate hERG toxicity, Caco-2 permeability, and CYP450 metabolism for the Top 50 candidates. The results demonstrated that several top-ranked molecules exhibit favorable intestinal absorption without significant hERG cardiotoxicity, indicating high potential for further development.
 Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
