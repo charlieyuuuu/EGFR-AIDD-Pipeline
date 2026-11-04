@@ -4,23 +4,16 @@ Description:
     This script performs ADMET property prediction for the Top 50 candidates
     using the 'admet-ai' package. It also provides the workflow instructions
     for calculating binding free energy (MM-PBSA) via 'gmx_MMPBSA'.
-
-Author: Yu Meng (AIDD/CADD Pipeline)
 """
 
 import os
 import pandas as pd
 
-
-# ==========================================
-# Part 1: ADMET Property Prediction
-# ==========================================
 def run_admet_prediction():
     print("=" * 50)
     print("Starting ADMET Prediction Pipeline...")
     print("=" * 50)
 
-    # 1. 强制使用 CPU (避免服务器上的 CUDA/PyTorch 版本冲突)
     os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
     try:
@@ -29,45 +22,31 @@ def run_admet_prediction():
         print("Error: 'admet-ai' is not installed. Please run: pip install admet-ai")
         return
 
-    # 2. 加载模型
-    print("Loading ADMET Model...")
+        print("Loading ADMET Model...")
     model = ADMETModel()
 
-    # 3. 读取数据并匹配 SMILES
     print("Reading Top 50 docking results and ChEMBL database...")
-    # 假设脚本在根目录运行，数据文件在上一级或同级
     top50_path = '../top50_docking.csv' if os.path.exists('../top50_docking.csv') else 'top50_docking.csv'
     raw_db_path = '../CHEMBL203_actives.csv' if os.path.exists('../CHEMBL203_actives.csv') else 'CHEMBL203_actives.csv'
 
     top50 = pd.read_csv(top50_path)
     raw_db = pd.read_csv(raw_db_path)
 
-    # 根据 chembl_id 把 SMILES 匹配过来
     top50 = top50.merge(raw_db[['chembl_id', 'smiles']], on='chembl_id', how='left')
     top50 = top50.dropna(subset=['smiles'])
 
     print(f"Successfully matched {len(top50)} molecules. Predicting...")
-
-    # 4. 执行预测
     results = model.predict(smiles=top50['smiles'].tolist())
-
-    # 5. 提取工业界最关心的 4 个核心指标
-    # hERG: 心脏毒性 (越低越好)
-    # Caco2_Wang: 肠道吸收 (越高越好)
-    # CYP3A4_Veith: 肝代谢 (越低越好)
-    # Half_Life_Obach: 半衰期
+    
     core_props = results[['hERG', 'Caco2_Wang', 'CYP3A4_Veith', 'Half_Life_Obach']]
     final_df = pd.concat([top50[['chembl_id', 'affinity', 'smiles']], core_props], axis=1)
 
-    # 6. 保存结果
     out_csv = 'top50_ADMET_evaluated.csv'
     final_df.to_csv(out_csv, index=False)
     print(f"✅ ADMET prediction completed! Saved to {out_csv}")
 
 
-# ==========================================
-# Part 2: MM-PBSA Binding Free Energy Instructions
-# ==========================================
+
 def print_mmpbsa_instructions():
     print("\n" + "=" * 50)
     print("MM-PBSA Binding Free Energy Calculation Workflow")
