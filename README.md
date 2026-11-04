@@ -41,11 +41,11 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ### ADMET 早期成药性评估 / Early-stage ADMET Evaluation
 我们利用 ADMET-AI 工具包，对虚拟筛选出的 Top 50 候选分子进行了 hERG 毒性、Caco-2 渗透性及 CYP450 代谢评估。结果显示，结合能排名靠前的多个候选分子具备良好的肠道吸收（Caco-2）且未表现出显著的 hERG 心脏毒性，具有极高的进一步开发潜力。
 详细预测数据见：[`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
-| ChEMBL ID | Docking Affinity (kcal/mol) | hERG (Toxicity) | Caco2 (Absorption) | CYP3A4 (Metabolism) |Half_Life (hours)|
+| ChEMBL ID | Docking Affinity (kcal/mol) | hERG (Cardiotoxicity) | Caco2 (Absorption) | CYP3A4 (Metabolism) | Half-Life (hours) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **CHEMBL5571836** | **-11.57** | **0.90 (High Risk)** | **-4.45 (Excellent)** | **0.88** | **15.62** |
-| **CHEMBL337026** | **-11** | **0.84 (High Risk)** | **-4.91 (Excellent)** | **0.47** | **347.91** |
-| **CHEMBL338155** | **-10.95** | **0.86 (High Risk)** | **-5.20 (Excellent)** | **0.25** | **377.84** |
+| **CHEMBL5571836** | **-11.57** | 0.90 (High Risk) | -4.45 (Excellent) | 0.88 (Fast) | 15.62 |
+| **CHEMBL337026** | **-11.00** | 0.84 (High Risk) | -4.91 (Excellent) | 0.47 (Slow) | 347.91 |
+| **CHEMBL338155** | **-10.95** | 0.86 (High Risk) | -5.20 (Excellent) | 0.25 (Slow) | 377.84 |
 
 We utilized ADMET-AI to evaluate hERG toxicity, Caco-2 permeability, and CYP450 metabolism for the Top 50 candidates. The results demonstrated that several top-ranked molecules exhibit favorable intestinal absorption without significant hERG cardiotoxicity, indicating high potential for further development.
 Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
