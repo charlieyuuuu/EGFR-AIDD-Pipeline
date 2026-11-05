@@ -34,7 +34,7 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
     **MM-PBSA Validation:** Binding free energy (ΔG) was calculated to be **~ -37 kcal/mol**. Energy decomposition revealed that **van der Waals (-49 kcal/mol)** and **electrostatic (-44 kcal/mol)** interactions are the main driving forces, consistent with MD observations.
 
 ## 📊 结果展示 / Results
-![Ligand RMSD](results/Fig1_Ligand_RMSD.png)
+![Uploading Fig1_Ligand_RMSD.png…]()
 *图 1：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。*
 *Figure 1: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes.*
 
