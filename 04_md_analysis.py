@@ -223,7 +223,7 @@ nano npt.mdp
 ; npt.mdp - NPT equilibration
 integrator  = md
 dt          = 0.002
-nsteps      = 50000    ; 100 ps
+nsteps      = 50000000    ; 100 ns
 
 nstxout     = 500
 nstvout     = 500
@@ -269,7 +269,7 @@ nano md.mdp
 ; md.mdp - production run 10 ns
 integrator  = md
 dt          = 0.002
-nsteps      = 5000000    ; 10 ns
+nsteps      = 50000000    ; 100 ns
 
 nstxout-compressed = 5000   ; 每 10 ps 存一帧（10 ns 共 1000 帧）
 nstenergy   = 5000
