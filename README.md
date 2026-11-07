@@ -16,7 +16,8 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
     Systematically evaluated EGFR structures from the PDB. Considering **resolution (9BY4 at 2.31 Å)**, the presence of a **co-crystal ligand**, and **wild-type status**, **PDB: 9BY4** was selected to ensure accurate grid box setting.
 2.  **数据准备 / Data Preparation**：从 ChEMBL 数据库中提取 10,734 个具有 EGFR 活性的化合物。利用 RDKit 进行 Lipinski 类药性五规则过滤，并生成 3D 构象及 PDBQT 格式文件。
     Filtered 10,734 EGFR-active compounds from the ChEMBL database using Lipinski's Rule of Five via RDKit. Generated 3D conformers and PDBQT formats.
-3.  **高通量虚拟筛选 (CADD) / High-Throughput Virtual Screening**：在 Linux 服务器上编写 Python 自动化脚本，调用 AutoDock Vina 对约 7,500 个化合物完成批量化对接，并根据结合能初筛出 Top 50 候选分子。
+3.  **高通量虚拟筛选与 Redocking 验证 (CADD) / High-Throughput Virtual Screening & Validation**：在筛选前，首先进行了 **Redocking 方法学验证**。通过将 9BY4 的共晶配体（Q6K）重新对接至原活性口袋，计算得出最优构象与晶体结构的 **RMSD 为 1.487 Å（< 2.0 Å）**，确保了对接参数（Exhaustiveness=16, 24Å 盒子）的精准性。随后，在 Linux 服务器上编写 Python 自动化脚本，调用 AutoDock Vina 对约 7,500 个化合物完成批量化对接，并根据结合能初筛出 Top 50 候选分子。
+    Prior to screening, **Redocking validation** was performed. By re-docking the co-crystal ligand (Q6K) of 9BY4, the **RMSD was calculated to be 1.487 Å (< 2.0 Å threshold)**, ensuring the accuracy of docking parameters. Subsequently, automated the docking of ~7,500 compounds using Python `subprocess` scripts to select the Top 50 candidates.。
     Automated the docking of ~7,500 compounds against the EGFR kinase domain using Python `subprocess` scripts. Selected the Top 50 candidates based on binding affinity.
 4.  **AI / QSAR 交叉验证 (AIDD) / AI Cross-Validation**：提取 2048 位 ECFP4 Morgan 分子指纹，训练随机森林回归模型（测试集 R² = 0.682）预测 pIC50。利用该机器学习模型对 Top 50 对接结果进行活性交叉验证，识别假阳性。
     Extracted 2048-bit ECFP4 Morgan fingerprints and trained a Random Forest Regressor (Test R² = 0.682) to predict bioactivity. This ML model was used to cross-validate the Top 50 docking hits.
@@ -39,6 +40,10 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ![Ligand RMSD](results/Fig1_Ligand_RMSD.png)
 *图 1：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。*
 *Figure 1: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes.*
+
+![Redocking Validation](results/Fig2_Redocking_Validation.png)
+*图 2：Redocking 方法学验证。绿色为 9BY4 晶体真实构象，洋红色为 Vina 重对接最优构象（RMSD = 1.487 Å），证明对接参数高度可靠。*
+*Figure 2: Redocking validation. Green represents the crystal structure of Q6K, and magenta represents the top-scoring redocked pose (RMSD = 1.487 Å), demonstrating the reliability of the docking parameters.*
 
 ### ADMET 早期成药性评估 / Early-stage ADMET Evaluation
 我们利用 ADMET-AI 工具包对 Top 50 候选分子进行了评估。**关键结论**：结合能排名前列的候选分子虽然具备极佳的肠道吸收（Caco-2），但其 **hERG 心脏毒性预测值均偏高（> 0.8）**。这提示在后续先导化合物优化中，必须引入多参数优化（MPO）进行结构改造，以降低心脏毒性风险。
