@@ -175,3 +175,25 @@ df.to_csv('top50_with_ranks.csv', index=False)
 print("完整结果已保存到 top50_with_ranks.csv")
 
 python correlation_analysis.py
+
+# Redocking Validation Protocol
+#### 1. 提取晶体配体 (Extract Crystal Ligand)
+# 提取 Q6K 的 HETATM 坐标
+grep "^HETATM.*Q6K" 9BY4.pdb > Q6K_crystal.pdb
+# 加氢并转换为 PDBQT 格式
+obabel Q6K_crystal.pdb -O Q6K_crystal.pdbqt -h
+
+vina --receptor EGFR_receptor.pdbqt \
+     --ligand Q6K_crystal.pdbqt \
+     --center_x 50.62 --center_y -0.20 --center_z 18.68 \
+     --size_x 24 --size_y 24 --size_z 24 \
+     --exhaustiveness 16 \
+     --out Q6K_redocked.pdbqt > redock.log
+
+# 提取打分最优的 Pose 1
+vina_split --input Q6K_redocked.pdbqt
+
+# PyMOL 命令行操作
+load Q6K_crystal.pdb, crystal
+load Q6K_redocked_ligand_1.pdbqt, redocked
+align redocked, crystal
