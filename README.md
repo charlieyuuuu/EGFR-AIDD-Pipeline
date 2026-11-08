@@ -41,8 +41,8 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 *Figure 1: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes.*
 
 ![Redocking Validation](results/Fig2_Redocking_Validation.png)
-*图 2：Redocking 方法学验证。绿色为 9BY4 晶体真实构象，洋红色为 Vina 重对接最优构象（RMSD = 1.487 Å），证明对接参数高度可靠。*
-*Figure 2: Redocking validation. Green represents the crystal structure of Q6K, and magenta represents the top-scoring redocked pose (RMSD = 1.487 Å), demonstrating the reliability of the docking parameters.*
+*图 2：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å）。*
+*Figure 2: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å).*
 
 ### ADMET 早期成药性评估 / Early-stage ADMET Evaluation
 我们利用 ADMET-AI 工具包对 Top 50 候选分子进行了评估。**关键结论**：结合能排名前列的候选分子虽然具备极佳的肠道吸收（Caco-2），但其 **hERG 心脏毒性预测值均偏高（> 0.8）**。这提示在后续先导化合物优化中，必须引入多参数优化（MPO）进行结构改造，以降低心脏毒性风险。
