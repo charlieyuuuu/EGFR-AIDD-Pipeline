@@ -38,7 +38,7 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ## 📊 结果展示 / Results
 
 ### 1. 方法学验证 (Redocking) / Methodological Validation
-![Redocking Validation](results/Fig1_Redocking_validation.png)
+![Redocking Validation](results/Fig1_Redocking_Validation.png)
 *图 1：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å < 2.0 Å），证明了对接参数（格点与打分函数）的极高可靠性。*
 *Figure 1: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å < 2.0 Å), proving the high reliability of docking parameters.*
 
@@ -48,7 +48,7 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 *Figure 2: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes. The blue line (CHEMBL6001037 pose2) shows flexible adaptation within the pocket, while the green line (CHEMBL5571836 pose1) exhibits high rigidity (RMSD ~0.2 nm).*
 
 ### 3. 假阳性验证 / False Positive Validation
-![Pose 1 Dissociation](results/Fig3_FalsePositive.png)
+![Pose 1 Dissociation](results/Fig3_FalsePositive_Final.png)
 *图 3：动力学解离验证。Vina 打分极高的 CHEMBL6001037 (pose 1) 在 MD 模拟中迅速解离至水相（RMSD > 1.5 nm 警戒区），证实了静态对接打分无法完全代表真实的动力学稳定性。*
 *Figure 3: Validation of dissociation. The top-scored CHEMBL6001037 (pose 1) rapidly dissociated into the solvent (RMSD > 1.5 nm warning region) during the MD simulation, confirming that static docking scores cannot fully represent dynamic stability.*
 
