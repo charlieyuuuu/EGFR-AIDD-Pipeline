@@ -38,12 +38,12 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
 ## 📊 结果展示 / Results
 
 ### 1. 方法学验证 (Redocking) / Methodological Validation
-![Redocking Validation](results/Fig2_Redocking_validation.png)
+![Redocking Validation](results/Fig1_Redocking_validation.png)
 *图 1：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å < 2.0 Å），证明了对接参数（格点与打分函数）的极高可靠性。*
 *Figure 1: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å < 2.0 Å), proving the high reliability of docking parameters.*
 
 ### 2. 候选复合物的动力学稳定性 / Dynamics Stability
-![Ligand RMSD](results/Fig1_Ligand_RMSD.png)
+![Ligand RMSD](results/Fig2_Ligand_RMSD.png)
 *图 2：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。蓝线（CHEMBL6001037 pose2）展现了口袋内的柔性适应与稳定结合；绿线（CHEMBL5571836 pose1）表现出极高的刚性（RMSD ~0.2 nm）。*
 *Figure 2: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes. The blue line (CHEMBL6001037 pose2) shows flexible adaptation within the pocket, while the green line (CHEMBL5571836 pose1) exhibits high rigidity (RMSD ~0.2 nm).*
 
