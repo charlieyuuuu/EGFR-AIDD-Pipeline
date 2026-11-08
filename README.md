@@ -28,29 +28,31 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
     Used ADMET-AI to predict hERG toxicity, Caco-2 permeability, and CYP450 metabolism for early-stage filtering.
 
 ## 🔬 核心科学发现 / Key Findings
-*静态对接和单一机器学习预测均存在局限性。通过结合 AI 模型、MD 模拟与热力学计算，我们揭示了经典的“假阳性”案例并验证了结合驱动力：*
-*Static docking and pure ML predictions have limitations. By combining AI, MD, and thermodynamic calculations, we revealed a "false positive" case and validated the driving forces:*
-*   Vina 打分最高（-11.57 kcal/mol）的 **CHEMBL5571836** 主构象（pose 1），在 MD 模拟进行到 3 ns 时即从结合口袋中**解离**。然而，次优构象（pose 2）在 100 ns 轨迹中保持了**极高的稳定性**（配体 RMSD 稳定在 0.4 nm 左右）。
-    The top-ranked docking pose (Vina score: -11.57 kcal/mol) **dissociated** within 3 ns. However, the secondary pose remained **highly stable** (RMSD ~ 0.4 nm) over 100 ns.
-*   **MM-PBSA 热力学验证**：对稳定构象进行结合自由能计算，得到 **ΔG ≈ -37 kcal/mol**。能量拆解表明，**范德华力（-49 kcal/mol）**与**静电力（-44 kcal/mol）**是复合物结合的主要驱动力，与 MD 观察到的疏水包埋和关键氢键网络高度吻合。
-    **MM-PBSA Validation:** Binding free energy (ΔG) was calculated to be **~ -37 kcal/mol**. Energy decomposition revealed that **van der Waals (-49 kcal/mol)** and **electrostatic (-44 kcal/mol)** interactions are the main driving forces, consistent with MD observations.
+*静态对接打分与真实的动力学行为存在显著差异，高分不等于可成药。通过结合 AI 模型、MD 模拟与热力学计算，我们揭示了以下核心现象：*
+*Static docking scores and dynamic behavior differ significantly; a high score does not equal a good drug. By combining AI, MD, and thermodynamics, we revealed the following:*
+*   **构象分化的假阳性陷阱 / Conformational Divergence**：Vina 打分较高（-10.65 kcal/mol）的 **CHEMBL6001037**，其主构象（pose 1）在 MD 模拟中表现出极不稳定的动力学特征（在 ~20 ns 首次脱离，~65 ns 完全水合解离）。而提取其次优构象（pose 2）重新模拟后，其通过口袋内的柔性适应（RMSD 0.4–0.65 nm），实现了全程 100 ns **未解离的稳定结合**。这证明了多构象采样与 MD 验证的必要性。
+    **CHEMBL6001037** (pose 1) dissociated within ~20 ns. However, its secondary pose (pose 2) remained stably bound over 100 ns through flexible adaptation (RMSD 0.4–0.65 nm), proving the necessity of multi-pose sampling and MD validation.
+*   **高分但非成药 / High Affinity but Poor Druggability**：**CHEMBL5571836** 虽然以 -11.57 kcal/mol 获得全场最高对接分，并在 MD（pose 1）中保持极高的结构刚性（~0.2 nm），但其 QSAR 活性预测不被认可，且 ADMET 预测显示极高的 hERG 毒性（0.90）与过快的 CYP3A4 代谢。因此，仅凭静态结合力无法判定其成药潜力。
+    Despite the top score (-11.57 kcal/mol) and rigid MD stability, **CHEMBL5571836** was deprioritized due to poor QSAR prediction, high hERG toxicity (0.90), and fast metabolism.
+*   **MM-PBSA 热力学验证 / Thermodynamic Validation**：对 Tier 1 候选分子（CHEMBL6001037 pose 2）进行结合自由能计算，得到 **ΔG ≈ -37 kcal/mol**。能量拆解表明，**范德华力（-49 kcal/mol）**与**静电力（-44 kcal/mol）**是复合物结合的主要驱动力。
+    Binding free energy for the Tier 1 candidate was calculated as **ΔG ≈ -37 kcal/mol**, with **van der Waals (-49 kcal/mol)** and **electrostatic (-44 kcal/mol)** interactions as the main driving forces.
 
 ## 📊 结果展示 / Results
 
 ### 1. 方法学验证 (Redocking) / Methodological Validation
 ![Redocking Validation](results/Fig1_Redocking_Validation.png)
-*图 1：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å < 2.0 Å），证明了对接参数（格点与打分函数）的极高可靠性。*
-*Figure 1: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å < 2.0 Å), proving the high reliability of docking parameters.*
+*图 1：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在原蛋白质结合口袋中高度重合（RMSD = 1.487 Å < 2.0 Å），证明了对接参数的极高可靠性。*
+*Figure 1: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, showing high overlap within the original binding pocket (RMSD = 1.487 Å < 2.0 Å).*
 
 ### 2. 候选复合物的动力学稳定性 / Dynamics Stability
 ![Ligand RMSD](results/Fig2_Ligand_RMSD.png)
-*图 2：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。蓝线（CHEMBL6001037 pose2）展现了口袋内的柔性适应与稳定结合；绿线（CHEMBL5571836 pose1）表现出极高的刚性（RMSD ~0.2 nm）。*
-*Figure 2: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes. The blue line (CHEMBL6001037 pose2) shows flexible adaptation within the pocket, while the green line (CHEMBL5571836 pose1) exhibits high rigidity (RMSD ~0.2 nm).*
+*图 2：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。绿线（CHEMBL5571836 pose1）表现出极高的刚性（~0.2 nm）；蓝线（CHEMBL6001037 pose2）展现了口袋内 0.4–0.65 nm 的柔性适应，二者均未发生解离。*
+*Figure 2: Ligand RMSD over 100 ns MD simulations. The green line shows high rigidity (~0.2 nm), while the blue line shows flexible adaptation (0.4–0.65 nm) without dissociation.*
 
 ### 3. 假阳性验证 / False Positive Validation
 ![Pose 1 Dissociation](results/Fig3_FalsePositive_Final.png)
-*图 3：动力学解离验证。Vina 打分极高的 CHEMBL6001037 (pose 1) 在 MD 模拟中迅速解离至水相（RMSD > 1.5 nm 警戒区），证实了静态对接打分无法完全代表真实的动力学稳定性。*
-*Figure 3: Validation of dissociation. The top-scored CHEMBL6001037 (pose 1) rapidly dissociated into the solvent (RMSD > 1.5 nm warning region) during the MD simulation, confirming that static docking scores cannot fully represent dynamic stability.*
+*图 3：CHEMBL6001037 (pose 1) 的动力学解离过程。配体在 ~20 ns 首次脱离结合口袋，并在 ~65 ns 完全水合。曲线在 8–9 nm 与 0.5 nm 之间的剧烈跳跃为周期性边界（PBC）重入伪影，非重新结合。*
+*Figure 3: Dissociation process of CHEMBL6001037 (pose 1). The ligand initially detached at ~20 ns and fully hydrated at ~65 ns. The rapid jumps between 8–9 nm and 0.5 nm are PBC re-entry artifacts, not re-binding.*
 
 ### 4. ADMET 早期成药性评估 / Early-stage ADMET Evaluation
 我们利用 ADMET-AI 工具包对 Top 50 候选分子进行了评估。**关键结论**：结合能排名前列的候选分子虽然具备极佳的肠道吸收（Caco-2），但其 **hERG 心脏毒性预测值均偏高（> 0.8）**。这提示在后续先导化合物优化中，必须引入多参数优化（MPO）进行结构改造，以降低心脏毒性风险。
@@ -67,21 +69,21 @@ Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_ev
 
 ## 💡 研发决策与结构优化建议 / Lead Optimization & Prioritization Strategy
 
-综合分子对接打分、MD 动力学稳定性、MM-PBSA 热力学结合力与 ADMET 成药性，我们对候选化合物进行了多维度综合评估，并提出以下优先级排序与分子优化方案：
-Based on virtual screening, MD stability, MM-PBSA thermodynamics, and ADMET predictions, we comprehensively evaluated the candidates and propose the following prioritization and optimization strategies:
+综合分子对接打分、MD 动力学稳定性、MM-PBSA 热力学结合力与 ADMET 成药性，我们对候选化合物进行了多维度综合评估：
+Based on virtual screening, MD stability, MM-PBSA thermodynamics, and ADMET predictions, we comprehensively evaluated the candidates:
 
 ### 1. 化合物综合优先级排序 / Compound Prioritization
-*   **Tier 1（高优验证组 / High Priority for Wet-Lab）**：**CHEMBL6001037 (pose 2)**。该分子在 100 ns MD 模拟中表现出极高的构象稳定性（RMSD ~ 0.4 nm），MM-PBSA 结合自由能极强（ΔG ≈ -37 kcal/mol，主要由范德华力驱动），且具备优秀的肠道吸收（Caco-2）。尽管预测存在一定 hERG 风险，但综合成药潜力最高，建议**优先推进体外激酶抑制实验进行验证**。
-    **CHEMBL6001037 (pose 2)** is ranked as Tier 1 for wet-lab validation due to its excellent MD stability and strong binding free energy, despite moderate hERG risk.
-*   **Tier 2（骨架参考组 / Scaffold Reference）**：**CHEMBL5571836**。虽然其 Vina 对接打分全场最高（-11.57 kcal/mol），但 MD 模拟证实其初始 pose 发生解离（典型假阳性），且 ADMET 预测显示极高的心脏毒性（hERG > 0.9）。建议将其作为**高亲和力骨架**提取药效团，而非直接成药。
-    **CHEMBL5571836** is classified as Tier 2 due to its high hERG risk and MD dissociation, serving as a scaffold reference rather than a direct lead.
-*   **Tier 3（淘汰/避坑组 / Deprioritized）**：结合力较强但 ADMET 极差（如半衰期过短、代谢过快）的分子，建议直接剔除，以降低后续湿实验的试错成本。
+*   **Tier 1（高优验证组 / High Priority）**：**CHEMBL6001037 (pose 2)**。该分子在 100 ns MD 模拟中展现了口袋内的柔性适应与稳定结合（未解离，RMSD ~0.4–0.65 nm），MM-PBSA 结合自由能极强（ΔG ≈ -37 kcal/mol），且具备优秀的肠道吸收（Caco-2）。建议作为**优先推进湿实验**的候选分子。
+    **CHEMBL6001037 (pose 2)** is ranked as Tier 1 due to its stable binding (RMSD ~0.4–0.65 nm without dissociation), strong MM-PBSA binding free energy (ΔG ≈ -37 kcal/mol), and excellent Caco-2 absorption.
+*   **Tier 2（骨架参考组 / Scaffold Reference）**：**CHEMBL5571836**。虽然其对接打分全场最高（-11.57 kcal/mol），且 MD 中刚性强、稳定性好，但因其 **QSAR 预测活性低、hERG 心脏毒性极高（0.90）以及 CYP3A4 代谢过快（0.88）**，不建议作为直接成药分子。建议保留其核心骨架作为高亲和力药效团参考。
+    **CHEMBL5571836** is classified as Tier 2 (scaffold reference) due to low QSAR prediction, high hERG risk (0.90), and fast metabolism, despite its top docking score and rigid MD stability.
+*   **Tier 3（淘汰/避坑组 / Deprioritized）**：结合力较强但 ADMET 极差（如半衰期过短、代谢过快）的分子，建议直接剔除。
 
 ### 2. 分子优化方案 / Molecular Optimization Strategy
 针对排名前列的化合物普遍存在的高 hERG 心脏毒性及代谢问题，结合构效关系（SAR）提出以下改造建议：
-*   **降低 hERG 毒性（多参数优化 MPO）**：hERG 毒性通常与分子的高脂溶性（LogP）及碱性胺基团相关。建议在保留核心骨架的基础上，采用**生物电子等排（Bioisosterism）**替换，引入亲水性基团（如吗啉、哌嗪或引入极性侧链）以降低 pKa 和脂溶性，从而在维持靶点亲和力的同时降低心脏毒性。
-*   **改善代谢稳定性**：针对半衰期较短的分子，可通过封闭易代谢位点（如用氟原子取代易氧化的甲基或芳环），提升其在体内的代谢稳定性。
-    To mitigate hERG cardiotoxicity, we suggest introducing hydrophilic groups (e.g., morpholine) or reducing lipophilicity/pKa via bioisosterism. For poor metabolic stability, blocking metabolic hotspots (e.g., fluorination) is recommended.
+*   **降低 hERG 毒性（多参数优化 MPO）**：hERG 毒性通常与分子的高脂溶性（LogP）及碱性胺基团相关。建议在保留核心骨架的基础上，采用**生物电子等排（Bioisosterism）**替换，引入亲水性基团（如吗啉、哌嗪）以降低 pKa 和脂溶性。
+*   **改善代谢稳定性**：针对半衰期较短的分子，可通过封闭易代谢位点（如用氟原子取代易氧化的甲基或芳环），提升体内代谢稳定性。
+    To mitigate hERG cardiotoxicity and poor metabolism, we suggest introducing hydrophilic groups (e.g., morpholine) via bioisosterism and blocking metabolic hotspots (e.g., fluorination).
 
 ## 🔭 后续优化方向 / Future Directions
 1.  **更精确的自由能计算 (FEP/TI)**：当前采用 MM-PBSA 进行快速热力学评估。对于后续确定的同系物先导化合物系列，将引入 **OpenFE** 或 **BindFlow** 等开源工具进行 FEP/TI 计算，以获得更精确的 ΔΔG。
