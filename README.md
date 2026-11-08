@@ -36,25 +36,34 @@ This repository presents an end-to-end AIDD/CADD pipeline for discovering novel 
     **MM-PBSA Validation:** Binding free energy (ΔG) was calculated to be **~ -37 kcal/mol**. Energy decomposition revealed that **van der Waals (-49 kcal/mol)** and **electrostatic (-44 kcal/mol)** interactions are the main driving forces, consistent with MD observations.
 
 ## 📊 结果展示 / Results
+
+### 1. 方法学验证 (Redocking) / Methodological Validation
+![Redocking Validation](results/Fig2_Redocking_validation.png)
+*图 1：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å < 2.0 Å），证明了对接参数（格点与打分函数）的极高可靠性。*
+*Figure 1: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å < 2.0 Å), proving the high reliability of docking parameters.*
+
+### 2. 候选复合物的动力学稳定性 / Dynamics Stability
 ![Ligand RMSD](results/Fig1_Ligand_RMSD.png)
-*图 1：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。*
-*Figure 1: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes.*
+*图 2：6 个候选复合物在 100 ns MD 模拟过程中的配体 RMSD 变化曲线。蓝线（CHEMBL6001037 pose2）展现了口袋内的柔性适应与稳定结合；绿线（CHEMBL5571836 pose1）表现出极高的刚性（RMSD ~0.2 nm）。*
+*Figure 2: Ligand RMSD over 100 ns MD simulations for 6 candidate complexes. The blue line (CHEMBL6001037 pose2) shows flexible adaptation within the pocket, while the green line (CHEMBL5571836 pose1) exhibits high rigidity (RMSD ~0.2 nm).*
 
-![Redocking Validation](results/Fig2_Redocking_Validation.png)
-*图 2：Redocking 方法学验证。绿色为 9BY4 晶体原配体（Q6K），洋红色为 Vina 重对接最优构象，两者在 EGFR ATP 结合口袋中高度重合（RMSD = 1.487 Å）。*
-*Figure 2: Redocking validation. Green represents the crystal ligand (Q6K), and magenta represents the redocked pose, demonstrating a high degree of overlap within the ATP pocket (RMSD = 1.487 Å).*
+### 3. 假阳性验证 / False Positive Validation
+![Pose 1 Dissociation](results/Fig3_FalsePositive.png)
+*图 3：动力学解离验证。Vina 打分极高的 CHEMBL6001037 (pose 1) 在 MD 模拟中迅速解离至水相（RMSD > 1.5 nm 警戒区），证实了静态对接打分无法完全代表真实的动力学稳定性。*
+*Figure 3: Validation of dissociation. The top-scored CHEMBL6001037 (pose 1) rapidly dissociated into the solvent (RMSD > 1.5 nm warning region) during the MD simulation, confirming that static docking scores cannot fully represent dynamic stability.*
 
-### ADMET 早期成药性评估 / Early-stage ADMET Evaluation
+### 4. ADMET 早期成药性评估 / Early-stage ADMET Evaluation
 我们利用 ADMET-AI 工具包对 Top 50 候选分子进行了评估。**关键结论**：结合能排名前列的候选分子虽然具备极佳的肠道吸收（Caco-2），但其 **hERG 心脏毒性预测值均偏高（> 0.8）**。这提示在后续先导化合物优化中，必须引入多参数优化（MPO）进行结构改造，以降低心脏毒性风险。
-We utilized ADMET-AI to evaluate the Top 50 candidates. **Key conclusion**: Despite excellent intestinal absorption (Caco-2), the top-ranked molecules exhibit a **high risk of hERG cardiotoxicity (> 0.8)**. This highlights the necessity of Multi-Parameter Optimization (MPO) in subsequent lead optimization.
+详细预测数据见：[`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
 
-详细预测数据见 / Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
+We utilized ADMET-AI to evaluate the Top 50 candidates. **Key conclusion**: Despite excellent intestinal absorption (Caco-2), the top-ranked molecules exhibit a **high risk of hERG cardiotoxicity (> 0.8)**. This highlights the necessity of Multi-Parameter Optimization (MPO) in subsequent lead optimization to mitigate cardiotoxicity risks.
+Detailed prediction data: [`data/top50_ADMET_evaluated.csv`](data/top50_ADMET_evaluated.csv)
 
 | ChEMBL ID | Affinity (kcal/mol) | hERG (Cardiotoxicity) | Caco2 (Absorption) | CYP3A4 (Metabolism) | Half-Life (hours) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **CHEMBL5571836** | **-11.57** | 0.90 (High Risk) | -4.45 (Excellent) | 0.88 (Fast) | 15.62 |
-| **CHEMBL337026** | **-11.00** | 0.84 (High Risk) | -4.91 (Excellent) | 0.47 (Slow) | 347.91 |
-| **CHEMBL338155** | **-10.95** | 0.86 (High Risk) | -5.20 (Excellent) | 0.25 (Slow) | 377.84 |
+| **CHEMBL5571836** | -11.57 | 0.90 (High Risk) | -4.45 (Excellent) | 0.88 (Fast) | 15.62 |
+| **CHEMBL337026** | -11.00 | 0.84 (High Risk) | -4.91 (Excellent) | 0.47 (Slow) | 347.91 |
+| **CHEMBL338155** | -10.95 | 0.86 (High Risk) | -5.20 (Excellent) | 0.25 (Slow) | 377.84 |
 
 ## 💡 研发决策与结构优化建议 / Lead Optimization & Prioritization Strategy
 
